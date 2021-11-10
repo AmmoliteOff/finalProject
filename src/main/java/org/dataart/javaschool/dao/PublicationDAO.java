@@ -25,14 +25,12 @@ public class PublicationDAO {
     SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
     private List <Publication> publications;
 
-    PathServise pathServise;
-
     public int addPublication(MultipartFile file, String tag) throws IOException {
-
+        PathServise pathServise = new PathServise();
         File fileD = pathServise.getPath(file).toFile();
 
-        file.transferTo(fileD);
-        ZipInputStream zin = new ZipInputStream(new FileInputStream(fileD));
+        file.transferTo(Paths.get(fileD + "/" + file.getOriginalFilename()));
+        ZipInputStream zin = new ZipInputStream(new FileInputStream(fileD + "/" + file.getOriginalFilename()));
         ZipEntry entry;
         String Article ="";
         String Body = "";
@@ -52,7 +50,7 @@ public class PublicationDAO {
                         Body = text.substring(text.indexOf("\r\n") + 2);
                     }
 
-                    if (Body == "" || Article == "") {
+                    if (Body.equals("")|| Article.equals("")) {
                         zin.close();
                         new File(fileD + "/" + file.getOriginalFilename()).delete();
                         return 2; // Body or(and) Article is not stated
