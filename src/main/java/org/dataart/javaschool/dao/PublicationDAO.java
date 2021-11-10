@@ -2,6 +2,7 @@ package org.dataart.javaschool.dao;
 
 import org.dataart.javaschool.HibernateUtils;
 import org.dataart.javaschool.models.Publication;
+import org.dataart.javaschool.servise.PathServise;
 import org.hibernate.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -21,39 +22,17 @@ import java.util.zip.ZipInputStream;
 @Component
 public class PublicationDAO {
 
-private String location;
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    private final Path rootLocation;
-
-    public FileStorageService(StorageProperties properties) {
-        rootLocation = Paths.get(properties.getLocation());
-    }
-
-
     SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
     private List <Publication> publications;
 
-    public PublicationDAO(Path rootLocation) {
-        this.rootLocation = rootLocation;
-    }
+    PathServise pathServise;
 
     public int addPublication(MultipartFile file, String tag) throws IOException {
 
+        File fileD = pathServise.getPath(file).toFile();
 
-        Path destinationFile = this.rootLocation.resolve(
-                        Paths.get(file.getOriginalFilename()))
-                .normalize().toAbsolutePath();
-
-        file.transferTo(destinationFile.toFile());
-        ZipInputStream zin = new ZipInputStream(new FileInputStream(staticLoadsPath +"/"+file.getOriginalFilename()));
+        file.transferTo(fileD);
+        ZipInputStream zin = new ZipInputStream(new FileInputStream(fileD));
         ZipEntry entry;
         String Article ="";
         String Body = "";
@@ -75,16 +54,17 @@ private String location;
 
                     if (Body == "" || Article == "") {
                         zin.close();
-                        new File(staticLoadsPath + "/" + file.getOriginalFilename()).delete();
+                        new File(fileD + "/" + file.getOriginalFilename()).delete();
                         return 2; // Body or(and) Article is not stated
                     }
 
                     break;
 
                 case "img.jpg":
+                    File fileIMG = pathServise.getPath(file).toFile();
                     byte[] bufferImg = new byte[(int) entry.getSize()];
                     ImgName.append(entry.getName());
-                    FileOutputStream fos = new FileOutputStream(staticLoadsPath + "/images/" + ImgName);
+                    FileOutputStream fos = new FileOutputStream(fileIMG+"/images/" + ImgName);
                     int len;
                     while ((len = zin.read(bufferImg)) > 0) {
                         fos.write(bufferImg, 0, len);
@@ -93,7 +73,7 @@ private String location;
                     break;
                 default:
                     zin.close();
-                    new File(staticLoadsPath + "/" + file.getOriginalFilename()).delete();
+                    new File(fileD + "/" + file.getOriginalFilename()).delete();
                     return 3; //Redundant files detected
             }
         }
@@ -102,7 +82,7 @@ private String location;
         else
         {
             zin.close();
-            new File(staticLoadsPath + "/" + file.getOriginalFilename()).delete();
+            new File(fileD + "/" + file.getOriginalFilename()).delete();
             return 4; //Empty ZIP;
         }
         zin.close();

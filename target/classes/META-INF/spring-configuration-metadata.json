@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "storage",
+      "type": "org.dataart.javaschool.dao.PublicationDAO",
+      "sourceType": "org.dataart.javaschool.dao.PublicationDAO"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}
