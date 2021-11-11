@@ -43,20 +43,21 @@ public class PublicationController {
         return "tag/taggedPage";
     }
 
-   @GetMapping("publications/{id}")
-   public String showThisPublish(@PathVariable("id") int id, Model model) {
-       model.addAttribute("publication", publicationDAO.showThisPublish(id));
-       return "publications/show";
+    @GetMapping("publications/{id}")
+    public String showThisPublish(@PathVariable("id") int id, Model model) {
+        model.addAttribute("publication", publicationDAO.showThisPublish(id));
+        return "publications/show";
     }
 
-    @RequestMapping(value = "/{page}", method = RequestMethod.POST)
+    @RequestMapping(value = "/*", method = RequestMethod.POST)
     public String addPublication(@RequestParam("file") MultipartFile file,
                                  Model model ,
-                                 @PathVariable(required = false) int page)
-                                throws IOException {
-        page = page == 0? 1:page;
-        model.addAttribute("status", publicationDAO.addPublication(file, "%%"));
-        model.addAttribute("publications", publicationDAO.showAllPublications("%%"));
+                                 @PathVariable(required = false) Integer page,
+                                 @RequestParam("tag") String TAGo)
+            throws IOException {
+        page = page == null? 1:0;
+        model.addAttribute("status", publicationDAO.addPublication(file, TAGo));
+        model.addAttribute("publications", publicationDAO.showAllPublications(TAGo));
         model.addAttribute("page", publicationDAO.currentPage(page));
         return "all";
     }
