@@ -21,11 +21,11 @@
 </div>
 
 <div id="nextPage">
-    <a class="pageSelector" th:href="@{/{pageNext}(pageNext=${page+1})}"></a>
+    <a class="pageSelector" th:href="@{{pageNext}(pageNext=${page+1})}"></a>
 </div>
 
 <div id="prevPage" th:if="${page!=1}">
-    <a class="pageSelector" th:href="@{/{pagePrev}(pagePrev=${page-1})}"></a>
+    <a class="pageSelector" th:href="@{{pagePrev}(pagePrev=${page-1})}"></a>
 </div>
 
 <div id="glass">
@@ -36,8 +36,8 @@
         <a class="button" href="#popup2">Поиск по тегам</a>
     </div>
 <div id="posts">
-    <div class="container" th:each="publication : ${publications}" th:if="${publication.isInPage(page, publications.size())}" th:style="'background-image:url(' + @{/css/images/img.png), url( /uploads/images/{imgname} (imgname = ${publication.getIMGNAME()})} + ');'">
-        <a class="linkArticle" th:href="@{/publications/{id}(id=${publication.getId()})}" th:text="${publication.getArticle()}">user</a>
+    <div class="container" th:each="publication : ${publications}" th:if="${publication.isInPage(page, publications.size())}" th:style="'background-image:url(' + @{css/images/img.png), url( uploads/images/{imgname} (imgname = ${publication.getIMGNAME()})} + ');'">
+        <a class="linkArticle" th:href="@{publications/{id}(id=${publication.getId()})}" th:text="${publication.getArticle()}">user</a>
     </div>
     </div>
 </div>

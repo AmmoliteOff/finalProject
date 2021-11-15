@@ -8,6 +8,7 @@ import org.hibernate.service.ServiceRegistry;
 import javax.annotation.PreDestroy;
 
 public class HibernateUtils {
+
     private static SessionFactory sessionFactory;
 
     public static SessionFactory getSessionFactory() {

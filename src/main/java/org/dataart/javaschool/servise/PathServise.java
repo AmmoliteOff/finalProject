@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 
 public class PathServise {
     public static Path getPath(MultipartFile file) {
-        Path articlesLocation = Paths.get("src/main/webapp/uploads");
+        Path articlesLocation = Paths.get("src/main/resources/static/uploads");
         Path absoluteDestination = articlesLocation.normalize().toAbsolutePath();
         return absoluteDestination;
     }

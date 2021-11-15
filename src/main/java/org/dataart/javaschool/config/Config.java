@@ -1,7 +1,6 @@
 package org.dataart.javaschool.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-
 
 
 
@@ -41,7 +39,7 @@ public class Config implements WebMvcConfigurer {
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("/WEB-INF/views/");
+        templateResolver.setPrefix("classpath:/templates/WEB-INF/views/");
         templateResolver.setSuffix(".html");
         templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
@@ -64,9 +62,6 @@ public class Config implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uploads/images/**")
-                .addResourceLocations("file:/C:/Users/nakon/IdeaProjects/FinalProjectJava/src/main/webapp/uploads/images/");
-        registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:C:/Users/nakon/IdeaProjects/FinalProjectJava/src/main/webapp/uploads/");
+        registry.addResourceHandler("/uploads/images/**").addResourceLocations("file:C:/Users/nakon/IdeaProjects/FinalProjectJava/src/main/resources/static/uploads/images/");
     }
 }
