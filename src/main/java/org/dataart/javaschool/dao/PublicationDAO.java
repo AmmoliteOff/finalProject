@@ -26,7 +26,7 @@ public class PublicationDAO {
 
     public int addPublication(MultipartFile file, String tag) throws IOException {
         PathServise pathServise = new PathServise();
-        File fileD = pathServise.getPath(file).toFile();
+        File fileD = pathServise.getPath().toFile();
 
         file.transferTo(Paths.get(fileD + "/" + file.getOriginalFilename()));
         ZipInputStream zin = new ZipInputStream(new FileInputStream(fileD + "/" + file.getOriginalFilename()));
@@ -58,7 +58,7 @@ public class PublicationDAO {
                         break;
 
                     case "img.jpg":
-                        File fileIMG = pathServise.getPath(file).toFile();
+                        File fileIMG = pathServise.getPath().toFile();
                         byte[] bufferImg = new byte[(int) entry.getSize()];
                         ImgName.append(entry.getName());
                         FileOutputStream fos = new FileOutputStream(fileIMG+"/images/" + ImgName);
