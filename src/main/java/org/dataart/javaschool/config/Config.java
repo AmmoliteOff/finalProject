@@ -15,15 +15,11 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
-import java.io.File;
-
-
 @Configuration
 @PropertySource("classpath:application.properties")
 @ComponentScan("org.dataart.javaschool")
 public class Config implements WebMvcConfigurer {
-
-    PathServise pathServise;
+    
     private final ApplicationContext applicationContext;
 
     @Autowired
@@ -65,7 +61,7 @@ public class Config implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uploads/images/**").addResourceLocations("file:"+pathServise.getPath().toFile()+"/images");
+        registry.addResourceHandler("/uploads/images/**").addResourceLocations("file:/"+ PathServise.getPath()+"/images");
     }
 }
 
