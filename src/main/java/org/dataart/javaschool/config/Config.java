@@ -1,5 +1,6 @@
 package org.dataart.javaschool.config;
 
+import org.dataart.javaschool.servise.PathServise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
+import java.io.File;
 
 
 @Configuration
@@ -21,6 +23,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @ComponentScan("org.dataart.javaschool")
 public class Config implements WebMvcConfigurer {
 
+    PathServise pathServise;
     private final ApplicationContext applicationContext;
 
     @Autowired
@@ -62,6 +65,6 @@ public class Config implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uploads/images/**").addResourceLocations("file:C:/Users/nakon/IdeaProjects/FinalProjectJava/src/main/resources/static/uploads/images/");
+        registry.addResourceHandler("/uploads/images/**").addResourceLocations("file:"+pathServise.getPath()+"/images");
     }
 }
